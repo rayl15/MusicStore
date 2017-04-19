@@ -36,4 +36,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="$(AspNetCoreVersion)" />
   </ItemGroup>
 
+  <Target Name="FixDuplicationInReferences" AfterTargets="ResolveLockFileReferences">
+    <ItemGroup>
+      <ReferenceToRemove Include="@(Reference)" Condition="'%(Reference.NuGetPackageId)' == 'NETStandard.Library.NETFramework'" />
+      <Reference Remove="%(ReferenceToRemove.FileName)" />
+    </ItemGroup>
+  </Target>
 </Project>
