@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Server.IntegrationTesting;
-using Microsoft.AspNetCore.Server.IntegrationTesting.xunit;
-using Microsoft.AspNetCore.Testing.xunit;
-using Microsoft.DotNet.PlatformAbstractions;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Microsoft.AspNetCore.Server.IntegrationTesting.xunit;
+using Microsoft.AspNetCore.Testing.xunit;
+using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,7 +18,7 @@ namespace E2ETests
         {
         }
 
-        [ConditionalTheory, Trait("E2Etests", "E2Etests")]
+        [ConditionalTheory, Trait("E2Etests", "Ntlm")]
         [OSSkipCondition(OperatingSystems.Linux)]
         [OSSkipCondition(OperatingSystems.MacOSX)]
         [InlineData(ServerType.WebListener, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64, ApplicationType.Portable)]
@@ -31,7 +30,7 @@ namespace E2ETests
             var testName = $"NtlmAuthentication_{serverType}_{runtimeFlavor}_{architecture}_{applicationType}";
             using (StartLog(out var loggerFactory, testName))
             {
-                var logger = loggerFactory.CreateLogger("NtlmAuthenticationTest");
+                var logger = loggerFactory.CreateLogger(nameof(NtlmAuthenticationTests));
                 var musicStoreDbName = DbUtils.GetUniqueName();
 
                 var deploymentParameters = new DeploymentParameters(Helpers.GetApplicationPath(applicationType), serverType, runtimeFlavor, architecture)
