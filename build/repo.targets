@@ -1,10 +1,19 @@
 <Project>
 
   <PropertyGroup>
+    <UseStore Condition="'$(MUSICSTORE_ASPNETCORE_STORE_FEED)' != ''">true</UseStore>
+    <PrepareDependsOn Condition="'$(UseStore)'=='true'">$(PrepareDependsOn);UpdateNuGetConfig</PrepareDependsOn>
     <MusicStoreE2ETestProject>$(RepositoryRoot)test\MusicStore.E2ETests\MusicStore.E2ETests.csproj</MusicStoreE2ETestProject>
   </PropertyGroup>
 
-  <Target Name="_FilterTestProjects" BeforeTargets="TestProjects" Condition="'$(VSTestTestCaseFilter)'=='E2Etests=NanoServer'">
+  <Target Name="UpdateNuGetConfig">
+    <UpdatePackageSource
+      NuGetConfigPath="$(RepositoryRoot)NuGet.config"
+      SourceName="AspNetCoreStore"
+      SourceUri="$(MUSICSTORE_ASPNETCORE_STORE_FEED)" />
+  </Target>
+
+  <Target Name="_FilterTestProjects" BeforeTargets="TestProjects" Condition="'$(UseStore)'=='true' Or '$(VSTestTestCaseFilter)'=='E2Etests=NanoServer'">
     <ItemGroup>
       <ProjectsToTest Remove="@(ProjectsToTest)" />
       <ProjectsToTest Include="$(MusicStoreE2ETestProject)" />
