@@ -27,7 +27,6 @@ namespace E2ETests
                     Helpers.GetApplicationPath(ApplicationType.Portable), serverType, RuntimeFlavor.CoreClr, RuntimeArchitecture.x64)
                 {
                     EnvironmentName = "SocialTesting",
-                    ServerConfigTemplateContent = (serverType == ServerType.IISExpress) ? File.ReadAllText("Http.config") : null,
                     SiteName = "MusicStoreTestSiteUsingStore",
                     PublishApplicationBeforeDeployment = true,
                     PreservePublishedApplicationForDebugging = Helpers.PreservePublishedApplicationForDebugging,
