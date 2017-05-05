@@ -201,39 +201,5 @@ namespace E2ETests
             }
             return storeParentDir;
         }
-
-        private string GetRuntimeIdentifier()
-        {
-            var architecture = GetArchitecture();
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return "win-" + architecture;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                return "linux-" + architecture;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                return "osx-" + architecture;
-            }
-            else
-            {
-                throw new InvalidOperationException("Unrecognized operation system platform");
-            }
-        }
-
-        private string GetArchitecture()
-        {
-            switch (RuntimeInformation.OSArchitecture)
-            {
-                case Architecture.X86:
-                    return "x86";
-                case Architecture.X64:
-                    return "x64";
-                default:
-                    throw new NotSupportedException($"Unsupported architecture: {RuntimeInformation.OSArchitecture}");
-            }
-        }
     }
 }
